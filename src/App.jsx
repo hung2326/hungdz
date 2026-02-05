@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Checkout from './pages/Checkout';
 import ProfileEdit from './pages/ProfileEdit';
 import ProductDetail from './pages/ProductDetail';
+import OrderDetail from './pages/OrderDetail';
 import Cart from './pages/Cart';
 import NotFound from './pages/NotFound';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -127,6 +128,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/edit" element={<ProfileEdit />} />

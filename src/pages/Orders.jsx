@@ -108,7 +108,10 @@ export default function Orders() {
                                 <p className="text-xs text-gray-500">Tổng thanh toán</p>
                                 <p className="font-bold text-orange-600">{formatPrice(order.total)}</p>
                             </div>
-                            <button className="text-sm font-medium text-orange-600 border border-orange-200 px-4 py-2 rounded-lg hover:bg-orange-50 transition">
+                            <button
+                                onClick={() => navigate(`/orders/${order.id}`)}
+                                className="text-sm font-medium text-orange-600 border border-orange-200 px-4 py-2 rounded-lg hover:bg-orange-50 transition"
+                            >
                                 Chi tiết
                             </button>
                         </div>
