@@ -1,11 +1,11 @@
 
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
 import { useAuth } from '@/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import React from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
     const { user, logout } = useAuth();
@@ -19,7 +19,7 @@ export default function ProfileScreen() {
 
     const menuItems = [
         { icon: 'help-circle-outline', title: 'Trung tâm hỗ trợ', onPress: () => alert('Tính năng đang phát triển') },
-        { icon: 'settings-outline', title: 'Cài đặt', onPress: () => { } },
+        { icon: 'create-outline', title: 'Chỉnh sửa hồ sơ', onPress: () => router.push('/profile-edit') },
         { icon: 'document-text-outline', title: 'Điều khoản sử dụng', onPress: () => { } },
         { icon: 'log-out-outline', title: 'Đăng xuất', color: Colors.error, onPress: handleLogout },
     ];

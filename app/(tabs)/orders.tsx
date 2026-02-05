@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
-import { useOrders, OrderItem, OrderStatus } from '@/contexts/OrderContext';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
+import { OrderItem, useOrders } from '@/contexts/OrderContext';
 import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Alert, FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function OrdersScreen() {
@@ -75,6 +75,7 @@ export default function OrdersScreen() {
 
             <View style={styles.orderBody}>
                 <Text style={styles.orderInfo}>Ngày đặt: {item.date}</Text>
+                <Text style={styles.orderInfo}>Người nhận: {item.customerName} - {item.customerPhone}</Text>
                 <Text style={styles.orderInfo}>Địa chỉ: {item.address}</Text>
                 <Text style={styles.orderInfo} numberOfLines={1}>
                     Món: {item.items.map(i => i.name).join(', ')}

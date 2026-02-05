@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform, Alert } from 'react-native';
-import { useRouter, Link } from 'expo-router';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link, useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LoginScreen() {
     const router = useRouter();
@@ -12,17 +12,26 @@ export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        console.log("DEBUG: Handle Login Pressed with email:", email); // DEBUG LOG
+
         if (!email || !password) {
             Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin');
             return;
         }
 
-        // Valid login simulation (accept any non-empty input for now as per req "validation basic")
-        login();
-        // Router logic will be handled by Context -> _layout auth guard usually, 
-        // but for immediate feedback we can redirect after login logic if needed or let the root layout handle it.
-        // Here we assume root layout listens to user state.
+        // Check if email contains '@'
+        if (!email.includes('@')) {
+            router.push('/invalid-login');
+            return;
+        }
+
+        const result = await login(email, password);
+        if (result.success) {
+            router.replace('/(tabs)');
+        } else {
+            Alert.alert('Đăng nhập thất bại', result.message || 'Vui lòng thử lại');
+        }
     };
 
     return (

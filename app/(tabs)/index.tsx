@@ -1,11 +1,10 @@
 
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, SafeAreaView } from 'react-native';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
+import { FoodCard } from '@/components/FoodCard';
 import { Header } from '@/components/Header';
 import { BANNERS, PRODUCTS } from '@/constants/mockData';
-import { FoodCard } from '@/components/FoodCard';
-import { ThemedView } from '@/components/themed-view';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
+import React from 'react';
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
   const bestSellers = PRODUCTS.filter(p => p.isBestSeller);
@@ -49,10 +48,10 @@ export default function HomeScreen() {
         {/* All Products */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Thực Đơn Hôm Nay 🍜</Text>
-          <View style={styles.grid}>
+          <View style={styles.list}>
             {PRODUCTS.map((item) => (
-              <View key={item.id} style={styles.gridItem}>
-                <FoodCard item={item} />
+              <View key={item.id} style={styles.listItem}>
+                <FoodCard item={item} layout="horizontal" />
               </View>
             ))}
           </View>
@@ -96,13 +95,11 @@ const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: Spacing.m,
   },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: Spacing.s,
+  list: {
+    paddingHorizontal: Spacing.m,
+    gap: Spacing.m,
   },
-  gridItem: {
-    width: '50%',
-    paddingHorizontal: Spacing.xs,
+  listItem: {
+    width: '100%',
   },
 });

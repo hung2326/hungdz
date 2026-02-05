@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, Platform, Alert, ScrollView } from 'react-native';
-import { useRouter, Link } from 'expo-router';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link, useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function RegisterScreen() {
     const router = useRouter();
@@ -11,11 +11,13 @@ export default function RegisterScreen() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleRegister = () => {
-        if (!name || !email || !password || !confirmPassword) {
+    const handleRegister = async () => {
+        if (!name || !email || !password || !confirmPassword || !phone) {
             Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin');
             return;
         }
@@ -25,11 +27,15 @@ export default function RegisterScreen() {
             return;
         }
 
-        // Simulate register
-        register();
-        Alert.alert('Thành công', 'Đăng ký thành công! Vui lòng đăng nhập.', [
-            { text: 'OK', onPress: () => router.replace('/(auth)/login') }
-        ]);
+        const result = await register(name, email, password, phone, address);
+
+        if (result.success) {
+            Alert.alert('Thành công', 'Đăng ký thành công! Vui lòng đăng nhập.', [
+                { text: 'OK', onPress: () => router.replace('/(auth)/login') }
+            ]);
+        } else {
+            Alert.alert('Đăng ký thất bại', result.message || 'Vui lòng thử lại');
+        }
     };
 
     return (
@@ -60,14 +66,35 @@ export default function RegisterScreen() {
                     </View>
 
                     <View style={styles.inputGroup}>
-                        <Text style={styles.label}>Email / Số điện thoại</Text>
+                        <Text style={styles.label}>Email</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Nhập email hoặc SĐT"
+                            placeholder="Nhập email"
                             value={email}
                             onChangeText={setEmail}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                        />
+                    </View>
+
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>Số điện thoại</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Nhập số điện thoại"
+                            value={phone}
+                            onChangeText={setPhone}
+                            keyboardType="phone-pad"
+                        />
+                    </View>
+
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>Địa chỉ</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Nhập địa chỉ của bạn"
+                            value={address}
+                            onChangeText={setAddress}
                         />
                     </View>
 

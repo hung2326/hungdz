@@ -1,11 +1,11 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { Colors, Spacing, BorderRadius } from '@/constants/theme';
-import { PRODUCTS, USER_INFO } from '@/constants/mockData';
-import { useOrders, OrderItem } from '@/contexts/OrderContext';
+import { PRODUCTS } from '@/constants/mockData';
+import { BorderRadius, Colors, Spacing } from '@/constants/theme';
 import { useAuth } from '@/contexts/AuthContext';
+import { OrderItem, useOrders } from '@/contexts/OrderContext';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function CheckoutScreen() {
@@ -49,7 +49,9 @@ export default function CheckoutScreen() {
             total: total,
             status: 'Delivering',
             date: new Date().toLocaleDateString('vi-VN'),
-            address: address
+            address: address,
+            customerName: name,
+            customerPhone: phone
         };
 
         addOrder(newOrder);

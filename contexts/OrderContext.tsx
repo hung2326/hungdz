@@ -1,6 +1,6 @@
 
-import React, { createContext, useContext, useState } from 'react';
 import { INITIAL_ORDERS } from '@/constants/mockData';
+import React, { createContext, useContext, useState } from 'react';
 
 export type OrderStatus = 'Delivering' | 'Delivered' | 'Cancelled';
 
@@ -11,6 +11,8 @@ export interface OrderItem {
     status: OrderStatus;
     date: string;
     address: string;
+    customerName: string;
+    customerPhone: string;
 }
 
 interface OrderContextType {
