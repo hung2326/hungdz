@@ -14,7 +14,8 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import NotFound from './pages/NotFound';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { CartProvider } from './contexts/CartContext';
+import { CartProvider, useCart } from './contexts/CartContext';
+import Footer from './components/Footer';
 
 function NavbarLink({ to, icon: Icon, label }) {
   const location = useLocation();
@@ -36,6 +37,7 @@ function NavbarLink({ to, icon: Icon, label }) {
 
 function Layout() {
   const { user } = useAuth();
+  const { getTotalItems } = useCart();
   const location = useLocation();
 
   return (
@@ -63,7 +65,11 @@ function Layout() {
             <>
               <Link to="/cart" className="p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-full transition relative">
                 <ShoppingCart size={24} />
-                {/* Optional: Add badge here if we have cart state */}
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                    {getTotalItems()}
+                  </span>
+                )}
               </Link>
 
               <Link to="/profile" className="flex items-center gap-3 hover:bg-orange-50 px-3 py-2 rounded-xl transition">
@@ -91,6 +97,9 @@ function Layout() {
         <Outlet />
       </main>
 
+      {/* Footer */}
+      <Footer />
+
       {/* Mobile Navigation (Bottom) - Visible only on Mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-between items-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 safe-area-bottom">
         <NavbarLink to="/" icon={HomeIcon} label="Trang chủ" />
@@ -102,9 +111,12 @@ function Layout() {
   );
 }
 
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       {/* AuthProvider is already wrapping App in main.jsx */}
       <CartProvider>
         <Routes>

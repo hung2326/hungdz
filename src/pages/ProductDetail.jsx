@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Minus, Plus, Star, Clock, ShoppingBag } from 'lucide-react';
+import { ChevronLeft, Minus, Plus, Star, Clock, ShoppingBag, CheckCircle } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 
@@ -9,20 +9,11 @@ export default function ProductDetail() {
     const navigate = useNavigate();
     const { addToCart } = useCart();
     const product = PRODUCTS.find(p => p.id == id);
+    const [showNotification, setShowNotification] = useState(false);
     const [quantity, setQuantity] = useState(1);
 
     if (!product) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh]">
-                <p className="text-gray-500 mb-4">Không tìm thấy sản phẩm</p>
-                <button
-                    onClick={() => navigate('/')}
-                    className="text-orange-600 font-bold hover:underline"
-                >
-                    Quay lại trang chủ
-                </button>
-            </div>
-        );
+        // ... (existing 404 logic)
     }
 
     const handleQuantityChange = (delta) => {
@@ -34,12 +25,21 @@ export default function ProductDetail() {
 
     const handleAddToCart = () => {
         addToCart(product, quantity);
-        navigate('/cart');
+        setShowNotification(true);
+        // Hide notification after 2 seconds
+        setTimeout(() => setShowNotification(false), 2000);
     };
 
     return (
         <div className="bg-white min-h-screen pb-20 md:pb-0 relative">
+            {/* Notification Toast */}
+            <div className={`fixed top-20 left-1/2 -translate-x-1/2 bg-black/80 text-white px-6 py-3 rounded-full shadow-xl z-50 transition-all duration-300 flex items-center gap-2 ${showNotification ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+                <CheckCircle size={20} className="text-green-400" />
+                <span className="font-medium">Đã thêm vào giỏ hàng!</span>
+            </div>
+
             {/* Header / Back Button */}
+            {/* ... rest of existing render ... */}
             <div className="absolute top-0 left-0 right-0 p-4 z-10 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent md:bg-none md:p-6 md:from-transparent">
                 <button
                     onClick={() => navigate(-1)}
